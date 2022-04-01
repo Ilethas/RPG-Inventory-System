@@ -1,0 +1,17 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+using UnrealBuildTool;
+
+public class DemoRPG : ModuleRules
+{
+	public DemoRPG(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+
+        PublicDependencyModuleNames.AddRange(new string[]
+        {
+	        "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "NavigationSystem", "AIModule", "SlateCore", "Slate",
+	        "GameplayAbilities", "GameplayTags", "GameplayTasks"
+        });
+    }
+}
