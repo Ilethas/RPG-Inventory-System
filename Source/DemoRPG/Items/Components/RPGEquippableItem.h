@@ -30,7 +30,7 @@ public:
 
 private:
 	UPROPERTY(BlueprintSetter = SetEquippingCharacter, ReplicatedUsing = OnRep_EquippingCharacter, Category = "Equippable Item")
-	ARPGCharacterInstance* EquippingCharacter;
+	TObjectPtr<ARPGCharacterInstance> EquippingCharacter;
 	
 	UFUNCTION()
 	void OnRep_EquippingCharacter();

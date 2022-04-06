@@ -12,7 +12,7 @@ class DEMORPG_API URPGTooltipWidgetComponent : public URPGWidgetComponent
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = Tooltip)
-	class URPGTooltip* GetTooltipWidget() const { return TooltipWidget; }
+	URPGTooltip* GetTooltipWidget() const { return TooltipWidget; }
 
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = Tooltip)
 	void SetTooltipDelay(const float NewDelay);
@@ -30,10 +30,10 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tooltip)
-	TSubclassOf<class URPGTooltip> TooltipWidgetClass;
+	TSubclassOf<URPGTooltip> TooltipWidgetClass;
 	
 	UPROPERTY(BlueprintReadOnly, BlueprintGetter = GetTooltipWidget, Category = Tooltip)
-	class URPGTooltip* TooltipWidget;
+	TObjectPtr<URPGTooltip> TooltipWidget;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintSetter = SetTooltipDelay, BlueprintGetter = GetTooltipDelay, Category = Tooltip)
 	float TooltipDelay = 0.0f;

@@ -8,8 +8,13 @@
 #include "Items/RPGItemInstance.h"
 #include "RPGPlayerController.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FRPGCharacterSelectedNative, class ARPGCharacterInstance*);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRPGCharacterSelected, class ARPGCharacterInstance*, SelectedCharacter);
+struct FPredictProjectilePathPointData;
+class URotateCharacter;
+class URPGInventoryMappingContainer;
+class URPGInventory;
+class ARPGCharacterInstance;
+DECLARE_MULTICAST_DELEGATE_OneParam(FRPGCharacterSelectedNative, ARPGCharacterInstance*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRPGCharacterSelected, ARPGCharacterInstance*, SelectedCharacter);
 
 UCLASS()
 class ARPGPlayerController : public APlayerController
@@ -24,28 +29,28 @@ public:
 	ARPGPlayerController();
 
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = Gameplay)
-	void SetSelectedCharacter(class ARPGCharacterInstance* CharacterToSelect);
+	void SetSelectedCharacter(ARPGCharacterInstance* CharacterToSelect);
 
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = Gameplay)
-	class ARPGCharacterInstance* GetSelectedCharacter() const { return SelectedCharacter; }
+	ARPGCharacterInstance* GetSelectedCharacter() const { return SelectedCharacter; }
 
 	UFUNCTION(Server, Reliable)
 	void ServerMoveToLocation(AActor* RPGCharacter, const FVector& Destination);
 
-	void CombineItemStacks(class ARPGItemInstance* ItemBeingCombined, class ARPGItemInstance* ReceivingItem);
+	void CombineItemStacks(ARPGItemInstance* ItemBeingCombined, ARPGItemInstance* ReceivingItem);
 
 	UFUNCTION(Server, Reliable)
-	void ServerCombineItemStacks(class ARPGItemInstance* ItemBeingCombined, class ARPGItemInstance* ReceivingItem);
+	void ServerCombineItemStacks(ARPGItemInstance* ItemBeingCombined, ARPGItemInstance* ReceivingItem);
 	
-	void MoveItem(class ARPGItemInstance* ItemInstance, const bool bForceNewPosition, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
+	void MoveItem(ARPGItemInstance* ItemInstance, const bool bForceNewPosition, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
 
 	UFUNCTION(Server, Reliable)
-	void ServerMoveItem(class ARPGItemInstance* ItemInstance, const bool bForceNewPosition, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
+	void ServerMoveItem(ARPGItemInstance* ItemInstance, const bool bForceNewPosition, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
 	
-	void SplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
+	void SplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
 
 	UFUNCTION(Server, Reliable)
-	void ServerSplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
+	void ServerSplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
 
 	UFUNCTION(Server, Reliable)
 	void ServerEquipItem(ARPGCharacterInstance* InCharacterInstance, ARPGItemInstance* InItemInstance, const FName InItemSlot = NAME_None);
@@ -59,19 +64,19 @@ public:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = Gameplay)
-	class ARPGCharacterInstance* SelectedCharacter;
+	TObjectPtr<ARPGCharacterInstance> SelectedCharacter;
 	
 	UPROPERTY(BlueprintReadOnly, Category = Gameplay)
-	class ARPGCharacterInstance* HighlightedCharacter;
+	TObjectPtr<ARPGCharacterInstance> HighlightedCharacter;
 	
 	UPROPERTY(EditAnywhere, Category = Movement, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
-	class UClass* SplinePathActorClass;
+	TObjectPtr<UClass> SplinePathActorClass;
 	
 	UPROPERTY(VisibleAnywhere, Category = Movement, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
-	class AActor* SplinePathActor;
+	TObjectPtr<AActor> SplinePathActor;
 	
 	UPROPERTY()
-	class URotateCharacter* RotateCharacterTask;
+	TObjectPtr<URotateCharacter> RotateCharacterTask;
 
 	// Begin PlayerController interface
 	virtual void PlayerTick(float DeltaTime) override;
@@ -91,8 +96,8 @@ protected:
 	void ServerJumpMove(ACharacter* JumpCharacter, const FVector& JumpVelocity, const FVector& JumpDest);
 	void PerformLaunch(ACharacter* JumpCharacter, const FVector JumpVelocity, const FVector JumpDest);
 
-	bool CheckCapsuleJumpCollision(ACharacter* JumpingCharacter, const TArray<struct FPredictProjectilePathPointData>& JumpTrajectory, float CollisionCheckTolerance) const;
-	void PreviewJumpTrajectory(const TArray<struct FPredictProjectilePathPointData>& JumpTrajectory);
+	bool CheckCapsuleJumpCollision(ACharacter* JumpingCharacter, const TArray<FPredictProjectilePathPointData>& JumpTrajectory, float CollisionCheckTolerance) const;
+	void PreviewJumpTrajectory(const TArray<FPredictProjectilePathPointData>& JumpTrajectory);
 };
 
 

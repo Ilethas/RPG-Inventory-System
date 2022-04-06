@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "RPGInventoryRowWidget.generated.h"
 
+class UHorizontalBox;
 /**
  * 
  */
@@ -15,5 +16,5 @@ class DEMORPG_API URPGInventoryRowWidget : public UUserWidget
 	GENERATED_BODY()
 public:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Inventory Row Widget")
-	class UHorizontalBox* Container;
+	TObjectPtr<UHorizontalBox> Container;
 };

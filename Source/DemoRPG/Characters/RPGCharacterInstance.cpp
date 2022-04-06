@@ -140,8 +140,8 @@ void ARPGCharacterInstance::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	if (HasAuthority())
 	{
-		InventoryComponent->OnInventoryItemAddedNative.AddUObject(InventoryMappingContainer, &URPGInventoryMappingContainer::OnItemAdded);
-		InventoryComponent->OnInventoryItemRemovedNative.AddUObject(InventoryMappingContainer, &URPGInventoryMappingContainer::OnItemRemoved);
+		InventoryComponent->OnInventoryItemAddedNative.AddUObject(InventoryMappingContainer.Get(), &URPGInventoryMappingContainer::OnItemAdded);
+		InventoryComponent->OnInventoryItemRemovedNative.AddUObject(InventoryMappingContainer.Get(), &URPGInventoryMappingContainer::OnItemRemoved);
 		InventoryComponent->OnInventoryItemRemovedNative.AddUObject(this, &ARPGCharacterInstance::OnItemRemoved);
 	}
 }

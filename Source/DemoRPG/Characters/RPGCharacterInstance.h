@@ -9,6 +9,9 @@
 #include "GameFramework/Character.h"
 #include "RPGCharacterInstance.generated.h"
 
+class ARPGCharacterInstance;
+class URPGInventoryMappingContainer;
+class URPGInventory;
 struct FRPGEquippedItemsArray;
 class URPGItem;
 class ARPGItemInstance;
@@ -25,7 +28,7 @@ struct FRPGEquippedItemsArrayEntry : public FFastArraySerializerItem
 	FName ItemSlot = NAME_None;
 	
 	UPROPERTY()
-	ARPGItemInstance* ItemInstance = nullptr;
+	TObjectPtr<ARPGItemInstance> ItemInstance = nullptr;
 
 	bool bIsAboutToBeRemoved = false;
 
@@ -38,7 +41,7 @@ private:
 };
 
 USTRUCT()
-struct FRPGEquippedItemsArray: public FFastArraySerializer
+struct FRPGEquippedItemsArray : public FFastArraySerializer
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -46,7 +49,7 @@ struct FRPGEquippedItemsArray: public FFastArraySerializer
 	TArray<FRPGEquippedItemsArrayEntry> ItemEntries;
 	
 	UPROPERTY(NotReplicated)
-	class ARPGCharacterInstance* EquippingCharacter = nullptr;
+	TObjectPtr<ARPGCharacterInstance> EquippingCharacter = nullptr;
 
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams);
 };
@@ -84,10 +87,10 @@ public:
 	virtual void PostInitProperties() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RPG Character")
-	class URPGInventory* InventoryComponent;
+	TObjectPtr<URPGInventory> InventoryComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RPG Character")
-	class URPGInventoryMappingContainer* InventoryMappingContainer;
+	TObjectPtr<URPGInventoryMappingContainer> InventoryMappingContainer;
 
 	virtual void ApplyModel(URPGCharacterModel* Model) override;
 	virtual void ApplyModel(URPGModularCharacterModel* Model) override;
@@ -118,7 +121,7 @@ protected:
 	TSubclassOf<class ARPGCharacterPreview> CharacterPreviewClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RPG Character")
-	ARPGCharacterPreview* CharacterPreview;
+	TObjectPtr<ARPGCharacterPreview> CharacterPreview;
 
 	void OnEquippedItemRemoved_Internal(const FName InItemSlot, ARPGItemInstance* InItemInstance);
 	void OnEquippedItemAdded_Internal(const FName InItemSlot, ARPGItemInstance* InItemInstance);
@@ -126,10 +129,10 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RPG Character", Meta = (AllowPrivateAccess = "true"))
-	UAbilitySystemComponent* AbilitySystemComponent;
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "RPG Character", Meta = (AllowPrivateAccess = "true"))
-	TMap<URPGItem*, int> DefaultInventory;
+	TMap<TObjectPtr<URPGItem>, int> DefaultInventory;
 
 	void OnItemRemoved(ARPGItemInstance* RemovedItem);
 

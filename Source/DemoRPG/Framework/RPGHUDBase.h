@@ -6,16 +6,18 @@
 #include "GameFramework/HUD.h"
 #include "RPGHUDBase.generated.h"
 
+class URPGCursor;
+class URPGFocusWidget;
 UCLASS()
 class DEMORPG_API ARPGHUDBase : public AHUD
 {
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = HUD)
-	virtual void SetCurrentlyFocusedWidget(class URPGFocusWidget* WidgetToGiveFocus);
+	virtual void SetCurrentlyFocusedWidget(URPGFocusWidget* WidgetToGiveFocus);
 	
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = HUD)
-	class URPGFocusWidget* GetCurrentlyFocusedWidget() const { return CurrentlyFocusedWidget; }
+	URPGFocusWidget* GetCurrentlyFocusedWidget() const { return CurrentlyFocusedWidget; }
 
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = HUD)
 	void ResetRPGFocus();
@@ -37,14 +39,14 @@ protected:
 	TSubclassOf<UUserWidget> CursorWidgetClass;
 	
 	UPROPERTY(BlueprintReadOnly, Category = HUD)
-	class URPGHUDWidget* HUDWidget;
+	TObjectPtr<URPGHUDWidget> HUDWidget;
 	
 	UPROPERTY(BlueprintReadOnly, Category = HUD)
-	class URPGCursor* Cursor;
+	TObjectPtr<URPGCursor> Cursor;
 	
 	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(BlueprintSetter = SetCurrentlyFocusedWidget, BlueprintGetter = GetCurrentlyFocusedWidget, Category = HUD)
-	class URPGFocusWidget* CurrentlyFocusedWidget;
+	TObjectPtr<URPGFocusWidget> CurrentlyFocusedWidget;
 };

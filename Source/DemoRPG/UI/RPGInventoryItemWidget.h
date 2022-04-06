@@ -7,6 +7,12 @@
 #include "WidgetComponents/RPGWidgetWithComponents.h"
 #include "RPGInventoryItemWidget.generated.h"
 
+class URPGTooltipWidgetComponent;
+class URPGInventoryMapping;
+class URPGContextMenuWidget;
+class URPGContextMenuEntryWidget;
+class URPGItemDragWidget;
+class URPGInventoryWidget;
 class URPGEquipmentMapping;
 UCLASS()
 class DEMORPG_API URPGInventoryItemWidget : public URPGWidgetWithComponents
@@ -16,46 +22,46 @@ public:
 	URPGInventoryItemWidget(const FObjectInitializer& ObjectInitializer);
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Inventory Item Widget")
-	class URPGInventoryWidget* OwnerInventoryWidget;
+	TObjectPtr<URPGInventoryWidget> OwnerInventoryWidget;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Inventory Item Widget")
 	FRPGUISlot UISlot;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory Item Widget")
-	TSubclassOf<class URPGItemDragWidget> ItemDragWidgetClass;
+	TSubclassOf<URPGItemDragWidget> ItemDragWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory Item Widget")
-	TSubclassOf<class URPGContextMenuWidget> ContextMenuWidgetClass;
+	TSubclassOf<URPGContextMenuWidget> ContextMenuWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory Item Widget")
-	TSubclassOf<class URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass;
+	TSubclassOf<URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass;
 	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Inventory Item Widget")
 	void RefreshWidget();
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory Item Widget")
-	void SetInventoryMapping(class URPGInventoryMapping* NewInventoryMapping);
+	void SetInventoryMapping(URPGInventoryMapping* NewInventoryMapping);
 
 	UFUNCTION(BlueprintPure, Category = "Inventory Item Widget")
-	class URPGInventoryMapping* GetInventoryMapping() const { return InventoryMapping; }
+	URPGInventoryMapping* GetInventoryMapping() const { return InventoryMapping; }
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory Item Widget")
-	void SetItemInstance(class ARPGItemInstance* NewItemInstance);
+	void SetItemInstance(ARPGItemInstance* NewItemInstance);
 
 	UFUNCTION(BlueprintPure, Category = "Inventory Item Widget")
-	class ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
+	ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
 
 	virtual void PostInitProperties() override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory Item Widget")
-	class URPGTooltipWidgetComponent* TooltipComponent;
+	TObjectPtr<URPGTooltipWidgetComponent> TooltipComponent;
 	
 	UPROPERTY(BlueprintSetter = SetInventoryMapping, BlueprintGetter = GetInventoryMapping, Category = "Inventory Item Widget")
-	class URPGInventoryMapping* InventoryMapping;
+	TObjectPtr<URPGInventoryMapping> InventoryMapping;
 	
 	UPROPERTY(BlueprintSetter = SetItemInstance, BlueprintGetter = GetItemInstance, Category = "Inventory Item Widget")
-	class ARPGItemInstance* ItemInstance;
+	TObjectPtr<ARPGItemInstance> ItemInstance;
 
 	void OnInventoryMappingChanged();
 	void HandleOnDrop(URPGInventoryMapping* Payload);

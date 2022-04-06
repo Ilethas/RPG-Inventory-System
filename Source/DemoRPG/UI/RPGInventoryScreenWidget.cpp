@@ -36,7 +36,7 @@ void URPGInventoryScreenWidget::SetCurrentCharacter(ARPGCharacterInstance* NewCh
 			URPGEquipmentMapping* EquipmentMapping = Cast<URPGEquipmentMapping>(UIMapping);
 			if (IsValid(EquipmentMapping))
 			{
-				URPGEquippedItemWidget** FoundWidget = ItemSlotWidgets.Find(EquipmentMapping->GetItemSlot());
+				TObjectPtr<URPGEquippedItemWidget>* FoundWidget = ItemSlotWidgets.Find(EquipmentMapping->GetItemSlot());
 				if (FoundWidget)
 				{
 					(*FoundWidget)->SetEquipmentMapping(EquipmentMapping);
@@ -71,7 +71,7 @@ void URPGInventoryScreenWidget::OnEquipmentMappingRemoved(URPGUIMapping* AddedUI
 	const URPGEquipmentMapping* EquipmentMapping = Cast<URPGEquipmentMapping>(AddedUIMapping);
 	if (IsValid(EquipmentMapping))
 	{
-		URPGEquippedItemWidget** FoundWidget = ItemSlotWidgets.Find(EquipmentMapping->GetItemSlot());
+		TObjectPtr<URPGEquippedItemWidget>* FoundWidget = ItemSlotWidgets.Find(EquipmentMapping->GetItemSlot());
 		if (FoundWidget)
 		{
 			(*FoundWidget)->SetEquipmentMapping(nullptr);
@@ -84,7 +84,7 @@ void URPGInventoryScreenWidget::OnEquipmentMappingAdded(URPGUIMapping* AddedUIMa
 	URPGEquipmentMapping* EquipmentMapping = Cast<URPGEquipmentMapping>(AddedUIMapping);
 	if (IsValid(EquipmentMapping))
 	{
-		URPGEquippedItemWidget** FoundWidget = ItemSlotWidgets.Find(EquipmentMapping->GetItemSlot());
+		TObjectPtr<URPGEquippedItemWidget>* FoundWidget = ItemSlotWidgets.Find(EquipmentMapping->GetItemSlot());
 		if (FoundWidget)
 		{
 			(*FoundWidget)->SetEquipmentMapping(EquipmentMapping);

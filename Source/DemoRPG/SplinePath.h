@@ -8,6 +8,7 @@
 #include "GameFramework/Actor.h"
 #include "SplinePath.generated.h"
 
+class USplineComponent;
 UCLASS()
 class DEMORPG_API ASplinePath : public AActor
 {
@@ -26,13 +27,13 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Spline, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
-	class USplineComponent* Spline;
+	TObjectPtr<USplineComponent> Spline;
 	
 	UPROPERTY(VisibleAnywhere, Category = Spline, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
-	TArray<USplineMeshComponent*> MeshSegments;
+	TArray<TObjectPtr<USplineMeshComponent>> MeshSegments;
 
 	UPROPERTY(EditAnywhere, Category = Spline, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
-	class UStaticMesh* Mesh;
+	TObjectPtr<UStaticMesh> Mesh;
 
 	UPROPERTY(EditAnywhere, Category = Spline, BlueprintReadOnly, Meta = (AllowPrivateAccess = "true"))
 	TEnumAsByte<ESplineMeshAxis::Type> ForwardAxis;

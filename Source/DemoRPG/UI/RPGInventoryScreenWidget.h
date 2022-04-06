@@ -6,6 +6,8 @@
 #include "RPGFocusWidget.h"
 #include "RPGInventoryScreenWidget.generated.h"
 
+class ARPGCharacterInstance;
+class URPGInventoryWidget;
 class URPGEquippedItemWidget;
 class URPGUIMapping;
 /**
@@ -20,23 +22,23 @@ public:
 	void RefreshWidget();
 	
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = HUD)
-	class URPGInventoryWidget* CharacterInventory;
+	TObjectPtr<URPGInventoryWidget> CharacterInventory;
 	
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = HUD)
-	class URPGInventoryWidget* PartyStash;
+	TObjectPtr<URPGInventoryWidget> PartyStash;
 
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = HUD)
-	void SetCurrentCharacter(class ARPGCharacterInstance* NewCharacter);
+	void SetCurrentCharacter(ARPGCharacterInstance* NewCharacter);
 	
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = HUD)
-	class ARPGCharacterInstance* GetCurrentCharacter() const { return CurrentCharacter; }
+	ARPGCharacterInstance* GetCurrentCharacter() const { return CurrentCharacter; }
 
 protected:
 	UPROPERTY(BlueprintSetter = SetCurrentCharacter, BlueprintGetter = GetCurrentCharacter, Category = HUD)
-	class ARPGCharacterInstance* CurrentCharacter;
+	TObjectPtr<ARPGCharacterInstance> CurrentCharacter;
 
 	UPROPERTY(BlueprintReadWrite, Category = HUD)
-	TMap<FName, URPGEquippedItemWidget*> ItemSlotWidgets;
+	TMap<FName, TObjectPtr<URPGEquippedItemWidget>> ItemSlotWidgets;
 
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;

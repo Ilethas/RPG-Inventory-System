@@ -6,6 +6,7 @@
 #include "RPGTooltip.h"
 #include "RPGItemTooltip.generated.h"
 
+class ARPGItemInstance;
 UCLASS()
 class DEMORPG_API URPGItemTooltip : public URPGTooltip
 {
@@ -15,12 +16,12 @@ public:
 	void RefreshWidget();
 	
 	UFUNCTION(BlueprintCallable, Category = "Item Tooltip")
-	void SetItemInstance(class ARPGItemInstance* NewItemInstance);
+	void SetItemInstance(ARPGItemInstance* NewItemInstance);
 
 	UFUNCTION(BlueprintPure, Category = "Item Tooltip")
-	class ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
+	ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Item Tooltip")
-	class ARPGItemInstance* ItemInstance;
+	TObjectPtr<ARPGItemInstance> ItemInstance;
 };

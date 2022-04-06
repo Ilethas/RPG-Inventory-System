@@ -1,5 +1,7 @@
 ﻿#include "RPGItemFeature.h"
 
+#include "DemoRPG/Items/RPGItemInstance.h"
+
 void URPGItemFeature::Initialize()
 {
 	if (!bInitialized)

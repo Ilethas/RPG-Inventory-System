@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "RPGItemDragWidget.generated.h"
 
+class USizeBox;
 class URPGItemMapping;
 UCLASS()
 class DEMORPG_API URPGItemDragWidget : public UUserWidget
@@ -23,8 +24,8 @@ public:
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Item Drag Widget")
-	class USizeBox* SizeBox;
+	TObjectPtr<USizeBox> SizeBox;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Item Drag Widget")
-	URPGItemMapping* ItemMapping;
+	TObjectPtr<URPGItemMapping> ItemMapping;
 };

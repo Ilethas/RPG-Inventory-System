@@ -16,7 +16,7 @@ class DEMORPG_API URPGItem : public URPGNetworkedAsset
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item, ReplicatedUsing = OnRep_ItemChanged)
-	UTexture2D* Icon;
+	TObjectPtr<UTexture2D> Icon;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item, ReplicatedUsing = OnRep_ItemChanged)
 	FText Name;
@@ -41,7 +41,7 @@ public:
 	bool bIsDynamicAsset = false;
 	
 	UFUNCTION(BlueprintCallable, Meta = (DeterminesOutputType="FeatureClass"), Category = Item)
-	class URPGItemFeature* GetFeature(const TSubclassOf<class URPGItemFeature> FeatureClass);
+	class URPGItemFeature* GetFeature(const TSubclassOf<URPGItemFeature> FeatureClass);
 
 	template <typename T>
 	T* GetFeature();
@@ -66,7 +66,7 @@ public:
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Instanced, Category = Item, ReplicatedUsing = OnRep_ItemComponents)
-	TArray<URPGItemFeature*> ItemFeatures;
+	TArray<TObjectPtr<URPGItemFeature>> ItemFeatures;
 	
 	UFUNCTION()
 	void OnRep_ItemChanged() const;

@@ -18,7 +18,7 @@ void ARPGGameState::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	if (HasAuthority())
 	{
-		PartyStash->OnInventoryItemAddedNative.AddUObject(PartyStashMappingContainer, &URPGInventoryMappingContainer::OnItemAdded);
-		PartyStash->OnInventoryItemRemovedNative.AddUObject(PartyStashMappingContainer, &URPGInventoryMappingContainer::OnItemRemoved);
+		PartyStash->OnInventoryItemAddedNative.AddUObject(PartyStashMappingContainer.Get(), &URPGInventoryMappingContainer::OnItemAdded);
+		PartyStash->OnInventoryItemRemovedNative.AddUObject(PartyStashMappingContainer.Get(), &URPGInventoryMappingContainer::OnItemRemoved);
 	}
 }

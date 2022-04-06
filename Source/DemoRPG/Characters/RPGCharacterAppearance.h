@@ -24,7 +24,7 @@ struct FRPGModularModelPart
 	FName ModelPartTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Model)
-	USkeletalMesh* SkeletalMesh = nullptr;
+	TObjectPtr<USkeletalMesh> SkeletalMesh = nullptr;
 };
 
 UINTERFACE(MinimalAPI, Blueprintable)
@@ -59,7 +59,7 @@ class DEMORPG_API URPGCharacterModel : public URPGCharacterModelBase
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Model)
-	USkeletalMesh* SkeletalMesh = nullptr;
+	TObjectPtr<USkeletalMesh> SkeletalMesh = nullptr;
 
 	virtual void ApplyModel(IRPGCharacterModelVisitorInterface* Visitor) override;
 };
@@ -87,7 +87,7 @@ public:
 	TArray<URPGCharacterModelBase*> Models;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Appearance)
-	UAnimBlueprint* AnimationBlueprint;
+	TObjectPtr<UAnimBlueprint> AnimationBlueprint;
 
 	UFUNCTION(BlueprintCallable, Category = Appearance)
 	URPGCharacterModelBase* GetModel(const FName InModelTag);

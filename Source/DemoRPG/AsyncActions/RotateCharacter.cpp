@@ -76,5 +76,5 @@ void URotateCharacter::Interrupt()
 
 void URotateCharacter::EndAction()
 {
-	MarkPendingKill();
+	MarkAsGarbage();
 }

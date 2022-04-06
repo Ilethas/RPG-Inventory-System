@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "RPGCharacter.generated.h"
 
+class URPGCharacterAppearance;
 UCLASS(BlueprintType, Meta = (DisplayName = "Character"))
 class DEMORPG_API URPGCharacter : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "RPG Character")
-	class URPGCharacterAppearance* CharacterAppearance;
+	TObjectPtr<URPGCharacterAppearance> CharacterAppearance;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "RPG Character")
 	int MaxHealth;

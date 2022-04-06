@@ -6,19 +6,20 @@
 #include "DemoRPG/UI/RPGFocusWidget.h"
 #include "RPGWidgetWithComponents.generated.h"
 
+class URPGWidgetComponent;
 UCLASS()
 class DEMORPG_API URPGWidgetWithComponents : public URPGFocusWidget
 {
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable, Category = "Widget Components")
-	void AddWidgetComponent(class URPGWidgetComponent* Component);
+	void AddWidgetComponent(URPGWidgetComponent* Component);
 	
 	UFUNCTION(BlueprintCallable, Category = "Widget Components")
-	void RemoveWidgetComponent(class URPGWidgetComponent* Component);
+	void RemoveWidgetComponent(URPGWidgetComponent* Component);
 
 	UFUNCTION(BlueprintCallable, Meta = (DeterminesOutputType="ComponentClass", DisplayName = "Get Component"), Category = "Widget Components")
-	class URPGWidgetComponent* GetComponent_BP(const TSubclassOf<URPGWidgetComponent> ComponentClass);
+	URPGWidgetComponent* GetComponent_BP(const TSubclassOf<URPGWidgetComponent> ComponentClass);
 
 	template <typename ComponentType>
 	ComponentType* GetComponent();
@@ -27,7 +28,7 @@ public:
 
 protected:
 	UPROPERTY(Transient)
-	TSet<class URPGWidgetComponent*> WidgetComponents;
+	TSet<TObjectPtr<URPGWidgetComponent>> WidgetComponents;
 	
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;

@@ -36,7 +36,7 @@ void ARPGHUD::ShowSplitItemWidget(class ARPGItemInstance* ItemInstance, class UR
 {
 	if (!IsValid(SplitItemWidget))
 	{
-		SplitItemWidget = CreateWidget<URPGSplitItemWidget>(PlayerOwner, SplitItemWidgetClass);
+		SplitItemWidget = CreateWidget<URPGSplitItemWidget>(PlayerOwner.Get(), SplitItemWidgetClass);
 	}
 	SplitItemWidget->SetItemInstance(ItemInstance);
 	SplitItemWidget->TargetInventory = TargetInventory;
@@ -83,7 +83,7 @@ void ARPGHUD::ShowBagWidget(ARPGItemInstance* BagItem)
 	}
 	else if (IsValid(BagWidgetClass))
 	{
-		BagWidget = CreateWidget<URPGBagWidget>(PlayerOwner, BagWidgetClass);
+		BagWidget = CreateWidget<URPGBagWidget>(PlayerOwner.Get(), BagWidgetClass);
 		BagWidget->SetBagItemInstance(BagItem);
 	}
 

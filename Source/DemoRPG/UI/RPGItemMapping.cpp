@@ -30,7 +30,7 @@ void URPGInventoryMapping::SetUISlot(const FRPGUISlot& NewUISlot)
 	OnRep_UISlot(OldUISlot);
 }
 
-URPGInventoryMapping* URPGInventoryMapping::Construct(ARPGItemInstance* Instance, class URPGUIMappingContainer* Container, const FRPGUISlot& InItemSlot)
+URPGInventoryMapping* URPGInventoryMapping::Construct(ARPGItemInstance* Instance, URPGUIMappingContainer* Container, const FRPGUISlot& InItemSlot)
 {
 	URPGInventoryMapping* Mapping = NewObject<URPGInventoryMapping>(Container);
 	Mapping->ItemInstance = Instance;

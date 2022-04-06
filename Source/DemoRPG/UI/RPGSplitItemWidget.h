@@ -7,6 +7,8 @@
 #include "DemoRPG/RPGTypes.h"
 #include "RPGSplitItemWidget.generated.h"
 
+class URPGInventoryMappingContainer;
+class URPGInventory;
 /**
  * 
  */
@@ -16,10 +18,10 @@ class DEMORPG_API URPGSplitItemWidget : public URPGFocusWidget
 	GENERATED_BODY()
 public:
 	UPROPERTY(BlueprintReadOnly, Category = "Split Item Widget")
-	class URPGInventory* TargetInventory;
+	TObjectPtr<URPGInventory> TargetInventory;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Split Item Widget")
-	class URPGInventoryMappingContainer* TargetContainer;
+	TObjectPtr<URPGInventoryMappingContainer> TargetContainer;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Split Item Widget")
 	FRPGUISlot TargetSlot = FRPGUISlot(-1, -1);
@@ -28,17 +30,17 @@ public:
 	void RefreshWidget();
 	
 	UFUNCTION(BlueprintCallable, Category = "Split Item Widget")
-	void SetItemInstance(class ARPGItemInstance* NewItemInstance);
+	void SetItemInstance(ARPGItemInstance* NewItemInstance);
 
 	UFUNCTION(BlueprintPure, Category = "Split Item Widget")
-	class ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
+	ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
 
 	UFUNCTION(BlueprintCallable, Category = "Split Item Widget")
 	void PerformSplit(const int AmountToSplit) const;
 
 protected:
 	UPROPERTY(BlueprintSetter = SetItemInstance, BlueprintGetter = GetItemInstance, Category = "Split Item Widget")
-	class ARPGItemInstance* ItemInstance;
+	TObjectPtr<ARPGItemInstance> ItemInstance;
 
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;

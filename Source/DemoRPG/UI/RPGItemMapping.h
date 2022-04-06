@@ -7,29 +7,32 @@
 #include "DemoRPG/Components/RPGUIMappingContainer.h"
 #include "RPGItemMapping.generated.h"
 
+struct FRPGUISlot;
+class URPGInventoryMapping;
+class URPGEquipmentMapping;
 UCLASS(BlueprintType)
 class DEMORPG_API URPGItemMapping : public URPGUIMapping
 {
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = "Item Mapping")
-	class ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
+	ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
 	template <typename UIMappingType>
-	static UIMappingType* FindMappingForItemTyped(class URPGUIMappingContainer* Container, class ARPGItemInstance* ItemInstance);
+	static UIMappingType* FindMappingForItemTyped(URPGUIMappingContainer* Container, ARPGItemInstance* ItemInstance);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, BlueprintGetter = GetItemInstance, Category = "Item Mapping", ReplicatedUsing = OnRep_ItemInstance)
-	class ARPGItemInstance* ItemInstance;
+	TObjectPtr<ARPGItemInstance> ItemInstance;
 
 	UFUNCTION()
 	void OnRep_ItemInstance();
 };
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FInventoryMappingUISlotChangedNative, FRPGUISlot, class URPGInventoryMapping*);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInventoryMappingUISlotChanged, FRPGUISlot, OldUISlot, class URPGInventoryMapping*, InventoryMapping);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FInventoryMappingUISlotChangedNative, FRPGUISlot, URPGInventoryMapping*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInventoryMappingUISlotChanged, FRPGUISlot, OldUISlot, URPGInventoryMapping*, InventoryMapping);
 
 UCLASS(BlueprintType)
 class DEMORPG_API URPGInventoryMapping : public URPGItemMapping
@@ -47,7 +50,7 @@ public:
 	const FRPGUISlot& GetUISlot() const { return UISlot; }
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory Mapping")
-	static URPGInventoryMapping* Construct(class ARPGItemInstance* Instance, class URPGUIMappingContainer* Container, const FRPGUISlot& InItemSlot);
+	static URPGInventoryMapping* Construct(ARPGItemInstance* Instance, URPGUIMappingContainer* Container, const FRPGUISlot& InItemSlot);
 
 	UFUNCTION(BlueprintCallable, Meta = (DisplayName = "GetFirstUnoccupiedSlot", AutoCreateRefTerm = "StartingSlot"), Category = "Inventory Mapping")
 	static FRPGUISlot GetFirstUnoccupiedSlot_BP(const URPGUIMappingContainer* Container, const int SlotsPerRow, const FRPGUISlot& StartingSlot);
@@ -57,7 +60,7 @@ public:
 	static FRPGUISlot FindSlotForItem(const ARPGItemInstance* InItemInstance, const URPGUIMappingContainer* Container, const int SlotsPerRow, const FRPGUISlot& StartingSlot = FRPGUISlot());
 	
 	UFUNCTION(BlueprintCallable, Category = "Inventory Mapping")
-	static URPGInventoryMapping* FindMappingForSlot(class URPGUIMappingContainer* Container, const FRPGUISlot& TargetUISlot);
+	static URPGInventoryMapping* FindMappingForSlot(URPGUIMappingContainer* Container, const FRPGUISlot& TargetUISlot);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
@@ -68,8 +71,8 @@ protected:
 	void OnRep_UISlot(const FRPGUISlot OldUISlot);
 };
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FEquipmentMappingItemSlotChangedNative, FName, class URPGEquipmentMapping*);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEquipmentMappingItemSlotChanged, FName, OldItemSlot, class URPGEquipmentMapping*, EquipmentMapping);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FEquipmentMappingItemSlotChangedNative, FName, URPGEquipmentMapping*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEquipmentMappingItemSlotChanged, FName, OldItemSlot, URPGEquipmentMapping*, EquipmentMapping);
 
 UCLASS(BlueprintType)
 class DEMORPG_API URPGEquipmentMapping : public URPGItemMapping

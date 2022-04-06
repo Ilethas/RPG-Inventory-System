@@ -6,38 +6,46 @@
 #include "RPGFocusWidget.h"
 #include "RPGInventoryWidget.generated.h"
 
+class URPGInventoryItemWidget;
+class URPGInventoryMapping;
+struct FRPGUISlot;
+class URPGInventoryRowWidget;
+class UVerticalBox;
+class URPGInventoryMappingContainer;
+class URPGInventory;
+class URPGUIMapping;
 UCLASS()
 class DEMORPG_API URPGInventoryWidget : public URPGFocusWidget
 {
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = "Inventory Widget")
-	void SetInventory(class URPGInventory* NewInventory);
+	void SetInventory(URPGInventory* NewInventory);
 
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = "Inventory Widget")
-	class URPGInventory* GetInventory() const { return Inventory; }
+	URPGInventory* GetInventory() const { return Inventory; }
 	
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = "Inventory Widget")
-	void SetInventoryMappingContainer(class URPGInventoryMappingContainer* NewInventoryMappingContainer);
+	void SetInventoryMappingContainer(URPGInventoryMappingContainer* NewInventoryMappingContainer);
 
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = "Inventory Widget")
-	class URPGInventoryMappingContainer* GetInventoryMappingContainer() const { return InventoryMappingContainer; }
+	URPGInventoryMappingContainer* GetInventoryMappingContainer() const { return InventoryMappingContainer; }
 
 protected:
 	UPROPERTY(BlueprintSetter = SetInventory, BlueprintGetter = GetInventory, Category = "Inventory Widget")
-	class URPGInventory* Inventory;
+	TObjectPtr<URPGInventory> Inventory;
 	
 	UPROPERTY(BlueprintSetter = SetInventoryMappingContainer, BlueprintGetter = GetInventoryMappingContainer, Category = "Inventory Widget")
-	class URPGInventoryMappingContainer* InventoryMappingContainer;
+	TObjectPtr<URPGInventoryMappingContainer> InventoryMappingContainer;
 	
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Inventory Widget")
-	class UVerticalBox* Container;
+	TObjectPtr<UVerticalBox> Container;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory Widget")
-	TSubclassOf<class URPGInventoryRowWidget> RowWidgetClass;
+	TSubclassOf<URPGInventoryRowWidget> RowWidgetClass;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory Widget")
-	TSubclassOf<class URPGInventoryItemWidget> ItemSlotWidgetClass;
+	TSubclassOf<URPGInventoryItemWidget> ItemSlotWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory Widget", Meta = (ClampMin = "0.0", UIMin = "0.0"))
 	float ItemSlotPadding = 15.0f;
@@ -53,9 +61,9 @@ protected:
 	
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
-	void OnInventoryMappingRemoved(class URPGUIMapping* RemovedUIMapping);
-	void OnInventoryMappingAdded(class URPGUIMapping* AddedUIMapping);
-	void OnInventoryUISlotChanged(const struct FRPGUISlot OldUISlot, class URPGInventoryMapping* InventoryMapping);
+	void OnInventoryMappingRemoved(URPGUIMapping* RemovedUIMapping);
+	void OnInventoryMappingAdded(URPGUIMapping* AddedUIMapping);
+	void OnInventoryUISlotChanged(const FRPGUISlot OldUISlot, URPGInventoryMapping* InventoryMapping);
 	
 	UFUNCTION(BlueprintCallable, Category = "Inventory Widget")
 	void CreateInventoryRows(const int RowsAmount, const int SlotsPerRow, const float ItemPadding);
@@ -64,8 +72,8 @@ protected:
 	void RebuildInventory(const int RowsAmount, const int SlotsPerRow, const float ItemPadding);
 	
 	void UpdateItemSlot(const FRPGUISlot& InItemSlot, URPGInventoryMapping* InventoryMapping) const;
-	class URPGInventoryItemWidget* GetItemWidgetForSlot(const FRPGUISlot& InItemSlot) const;
-	class URPGInventoryItemWidget* CreateWidgetForRow(const URPGInventoryRowWidget* InventoryRow, const FRPGUISlot& InItemSlot, const FMargin& PaddingStruct);
+	URPGInventoryItemWidget* GetItemWidgetForSlot(const FRPGUISlot& InItemSlot) const;
+	URPGInventoryItemWidget* CreateWidgetForRow(const URPGInventoryRowWidget* InventoryRow, const FRPGUISlot& InItemSlot, const FMargin& PaddingStruct);
 	void RebuildInventoryRow(const URPGInventoryRowWidget* InventoryRow, const int RowIndex, const int AmountOfItemSlots, const float ItemPadding);
 	void RefreshInventory();
 	void ClearItemWidgetsMappings() const;

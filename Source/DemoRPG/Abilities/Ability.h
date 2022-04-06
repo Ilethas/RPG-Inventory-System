@@ -30,5 +30,5 @@ class DEMORPG_API UAbilityInstance : public UObject
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UAbility* Ability;
+	TObjectPtr<UAbility> Ability;
 };

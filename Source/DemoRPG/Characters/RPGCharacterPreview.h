@@ -6,6 +6,7 @@
 #include "RPGCharacterAppearance.h"
 #include "RPGCharacterPreview.generated.h"
 
+class USpringArmComponent;
 class ARPGItemInstance;
 enum class ERPGCharacterSex : uint8;
 UCLASS(BlueprintType)
@@ -19,7 +20,7 @@ public:
 	ARPGCharacterPreview();
 	
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = Character)
-	class URPGCharacterAppearance* GetCharacterAppearance() const { return CharacterAppearance; }
+	URPGCharacterAppearance* GetCharacterAppearance() const { return CharacterAppearance; }
 	
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = Character)
 	FName GetModelTag() const { return ModelTag; }
@@ -34,22 +35,22 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
-	class USpringArmComponent* SpringArm;
+	TObjectPtr<USpringArmComponent> SpringArm;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
-	class USceneCaptureComponent2D* SceneCaptureComponent;
+	TObjectPtr<USceneCaptureComponent2D> SceneCaptureComponent;
 
 	UPROPERTY(BlueprintReadOnly, Category = Character)
-	class UTextureRenderTarget2D* RenderTarget;
+	TObjectPtr<UTextureRenderTarget2D> RenderTarget;
 	
 	UPROPERTY(EditDefaultsOnly)
-	UMaterialInterface* CharacterPreviewMaterial;
+	TObjectPtr<UMaterialInterface> CharacterPreviewMaterial;
 
 	UPROPERTY(BlueprintReadOnly, Category = Character)
-	class UMaterialInstanceDynamic* CharacterPreviewMaterialInstance;
+	TObjectPtr<UMaterialInstanceDynamic> CharacterPreviewMaterialInstance;
 	
 	UPROPERTY(BlueprintGetter = GetCharacterAppearance, BlueprintReadOnly, Category = Character)
-	class URPGCharacterAppearance* CharacterAppearance;
+	TObjectPtr<URPGCharacterAppearance> CharacterAppearance;
 
 	UPROPERTY(BlueprintGetter = GetModelTag, BlueprintReadOnly, Category = "RPG Character")
 	FName ModelTag;

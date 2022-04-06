@@ -7,6 +7,11 @@
 #include "WidgetComponents/RPGWidgetWithComponents.h"
 #include "RPGEquippedItemWidget.generated.h"
 
+class URPGContextMenuEntryWidget;
+class URPGContextMenuWidget;
+class URPGEquipmentMapping;
+class URPGItemDragWidget;
+class URPGTooltipWidgetComponent;
 UCLASS()
 class DEMORPG_API URPGEquippedItemWidget : public URPGWidgetWithComponents
 {
@@ -15,46 +20,46 @@ public:
 	URPGEquippedItemWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipped Item Widget")
-	TSubclassOf<class URPGItemDragWidget> ItemDragWidgetClass;
+	TSubclassOf<URPGItemDragWidget> ItemDragWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipped Item Widget")
-	TSubclassOf<class URPGContextMenuWidget> ContextMenuWidgetClass;
+	TSubclassOf<URPGContextMenuWidget> ContextMenuWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipped Item Widget")
-	TSubclassOf<class URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass;
+	TSubclassOf<URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass;
 	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Equipped Item Widget")
 	void RefreshWidget();
 
 	UFUNCTION(BlueprintCallable, Category = "Equipped Item Widget")
-	void SetEquipmentMapping(class URPGEquipmentMapping* NewEquipmentMapping);
+	void SetEquipmentMapping(URPGEquipmentMapping* NewEquipmentMapping);
 
 	UFUNCTION(BlueprintPure, Category = "Equipped Item Widget")
-	class URPGEquipmentMapping* GetEquipmentMapping() const { return EquipmentMapping; }
+	URPGEquipmentMapping* GetEquipmentMapping() const { return EquipmentMapping; }
 
 	UFUNCTION(BlueprintCallable, Category = "Equipped Item Widget")
-	void SetItemInstance(class ARPGItemInstance* NewItemInstance);
+	void SetItemInstance(ARPGItemInstance* NewItemInstance);
 
 	UFUNCTION(BlueprintPure, Category = "Equipped Item Widget")
-	class ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
+	ARPGItemInstance* GetItemInstance() const { return ItemInstance; }
 
 	virtual void PostInitProperties() override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipped Item Widget")
-	class URPGTooltipWidgetComponent* TooltipComponent;
+	TObjectPtr<URPGTooltipWidgetComponent> TooltipComponent;
 	
 	UPROPERTY(BlueprintSetter = SetEquipmentMapping, BlueprintGetter = GetEquipmentMapping, Category = "Equipped Item Widget")
-	class URPGEquipmentMapping* EquipmentMapping;
+	TObjectPtr<URPGEquipmentMapping> EquipmentMapping;
 	
 	UPROPERTY(BlueprintSetter = SetItemInstance, BlueprintGetter = GetItemInstance, Category = "Equipped Item Widget")
-	class ARPGItemInstance* ItemInstance;
+	TObjectPtr<ARPGItemInstance> ItemInstance;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipped Item Widget")
 	FName WidgetItemSlot;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipped Item Widget")
-	UTexture2D* ItemSlotIcon;
+	TObjectPtr<UTexture2D> ItemSlotIcon;
 
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;

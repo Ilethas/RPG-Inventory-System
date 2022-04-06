@@ -7,6 +7,7 @@
 #include "UObject/NoExportTypes.h"
 #include "RPGUIMappingContainer.generated.h"
 
+struct FRPGItemUIMappingArray;
 DECLARE_MULTICAST_DELEGATE(FUIMappingChangedNative);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUIMappingChanged);
 
@@ -22,13 +23,13 @@ public:
 	void SetOwnerContainer(class URPGUIMappingContainer* NewOwnerContainer);
 
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = "UI Mapping")
-	class URPGUIMappingContainer* GetOwnerContainer() const { return OwnerContainer; }
+	URPGUIMappingContainer* GetOwnerContainer() const { return OwnerContainer; }
 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, BlueprintGetter = GetOwnerContainer, Category = "UI Mapping", ReplicatedUsing = OnRep_UIMapping)
-	class URPGUIMappingContainer* OwnerContainer;
+	TObjectPtr<URPGUIMappingContainer> OwnerContainer;
 
 	UFUNCTION()
 	virtual void OnRep_UIMapping();
@@ -40,14 +41,14 @@ struct FRPGUIMappingEntry : public FFastArraySerializerItem
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(BlueprintReadOnly)
-	class URPGUIMappingContainer* OwnerContainer = nullptr;
+	TObjectPtr<URPGUIMappingContainer> OwnerContainer = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
-	URPGUIMapping* UIMapping = nullptr;
+	TObjectPtr<URPGUIMapping> UIMapping = nullptr;
 
-	void PreReplicatedRemove(const struct FRPGItemUIMappingArray& InArraySerializer);
-	void PostReplicatedAdd(const struct FRPGItemUIMappingArray& InArraySerializer);
-	void PostReplicatedChange(const struct FRPGItemUIMappingArray& InArraySerializer);
+	void PreReplicatedRemove(const FRPGItemUIMappingArray& InArraySerializer);
+	void PostReplicatedAdd(const FRPGItemUIMappingArray& InArraySerializer);
+	void PostReplicatedChange(const FRPGItemUIMappingArray& InArraySerializer);
 
 private:
 	bool bWasPostReplicatedAddCalled = false;
@@ -73,10 +74,10 @@ struct TStructOpsTypeTraits<FRPGItemUIMappingArray> : public TStructOpsTypeTrait
 	};
 };
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FUIMappingRemovedNative, class URPGUIMapping*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FUIMappingRemovedNative, URPGUIMapping*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUIMappingRemoved, class URPGUIMapping*, RemovedUIMapping);
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FUIMappingAddedNative, class URPGUIMapping*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FUIMappingAddedNative, URPGUIMapping*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUIMappingAdded, class URPGUIMapping*, AddedUIMapping);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -124,9 +125,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Transient, Replicated, Category = "UI Mapping Container")
 	FRPGItemUIMappingArray UIMappingArray;
 	
-	void OnUIMappingRemoved_Internal(class URPGUIMapping* RemovedUIMapping);
-	void OnUIMappingAdded_Internal(class URPGUIMapping* AddedUIMapping);
-	void OnUIMappingChanged_Internal(class URPGUIMapping* ChangedUIMapping);
+	void OnUIMappingRemoved_Internal(URPGUIMapping* RemovedUIMapping);
+	void OnUIMappingAdded_Internal(URPGUIMapping* AddedUIMapping);
+	void OnUIMappingChanged_Internal(URPGUIMapping* ChangedUIMapping);
 };
 
 template <typename Predicate>

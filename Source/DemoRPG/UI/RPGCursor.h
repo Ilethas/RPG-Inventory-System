@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "RPGCursor.generated.h"
 
+class UImage;
 /**
  * 
  */
@@ -15,5 +16,5 @@ class DEMORPG_API URPGCursor : public UUserWidget
 	GENERATED_BODY()
 public:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Cursor")
-	class UImage* CursorImage;
+	TObjectPtr<UImage> CursorImage;
 };

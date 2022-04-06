@@ -51,5 +51,5 @@ struct FRPGEquippedItem
 	FName ItemSlot = NAME_None;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Equipped Item")
-	ARPGItemInstance* ItemInstance = nullptr;
+	TObjectPtr<ARPGItemInstance> ItemInstance = nullptr;
 };

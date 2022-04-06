@@ -19,7 +19,7 @@ public:
 	void SetItem(class URPGItem* NewItem);
 	
 	UFUNCTION(BlueprintPure, BlueprintInternalUseOnly, Category = "Item Instance")
-	class URPGItem* GetItem() const { return Item; }
+	URPGItem* GetItem() const { return Item; }
 
 	UFUNCTION(BlueprintCallable, BlueprintInternalUseOnly, Category = "Item Instance")
 	void SetQuantity(const int NewQuantity);
@@ -51,10 +51,10 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintSetter = SetItemOwner, BlueprintGetter = GetItemOwner, Category = "Item Instance", Replicated)
-	class UObject* ItemOwner;
+	TObjectPtr<UObject> ItemOwner;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintSetter = SetItem, BlueprintGetter = GetItem, Category = "Item Instance", ReplicatedUsing = OnRep_Item)
-	class URPGItem* Item;
+	TObjectPtr<URPGItem> Item;
 
 	UFUNCTION()
 	void OnRep_Item();

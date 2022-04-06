@@ -11,7 +11,7 @@ public class DemoRPG : ModuleRules
         PublicDependencyModuleNames.AddRange(new string[]
         {
 	        "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "NavigationSystem", "AIModule", "SlateCore", "Slate",
-	        "GameplayAbilities", "GameplayTags", "GameplayTasks"
+	        "NetCore", "GameplayAbilities", "GameplayTags", "GameplayTasks"
         });
     }
 }

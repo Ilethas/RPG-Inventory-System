@@ -6,6 +6,7 @@
 #include "DemoRPG/RPGNetworkedObject.h"
 #include "RPGItemFeature.generated.h"
 
+class ARPGItemInstance;
 UCLASS(Abstract, EditInlineNew, DefaultToInstanced)
 class DEMORPG_API URPGItemFeature : public URPGNetworkedObject
 {
@@ -19,7 +20,7 @@ public:
 
 	virtual void OnRemoved();
 
-	virtual void OnItemInstanceConstructed(class ARPGItemInstance* ItemInstance);
+	virtual void OnItemInstanceConstructed(ARPGItemInstance* ItemInstance);
 	
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Meta = (DisplayName = "On Initialized"), Category = "Item Feature")
@@ -29,7 +30,7 @@ protected:
 	void OnRemoved_BP();
 	
 	UFUNCTION(BlueprintImplementableEvent, Meta = (DisplayName = "On Item Instance Constructed"), Category = "Item Feature")
-	void OnItemInstanceConstructed_BP(class ARPGItemInstance* ItemInstance);
+	void OnItemInstanceConstructed_BP(ARPGItemInstance* ItemInstance);
 	
 	virtual void OnInitialized();
 

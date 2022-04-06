@@ -6,21 +6,24 @@
 #include "RPGFocusWidget.h"
 #include "RPGHUDWidget.generated.h"
 
+class ARPGCharacterInstance;
+class UCanvasPanel;
+class URPGInventoryScreenWidget;
 UCLASS()
 class DEMORPG_API URPGHUDWidget : public URPGFocusWidget
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = HUD)
-	class URPGInventoryScreenWidget* InventoryScreen;
+	TObjectPtr<URPGInventoryScreenWidget> InventoryScreen;
 	
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = HUD)
-	class UCanvasPanel* BagLayer;
+	TObjectPtr<UCanvasPanel> BagLayer;
 	
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = HUD)
-	class UCanvasPanel* TooltipLayer;
+	TObjectPtr<UCanvasPanel> TooltipLayer;
 
 protected:
 	virtual void NativeOnInitialized() override;
-	void OnSelectedCharacterChanged(class ARPGCharacterInstance* NewSelectedCharacter);
+	void OnSelectedCharacterChanged(ARPGCharacterInstance* NewSelectedCharacter);
 };

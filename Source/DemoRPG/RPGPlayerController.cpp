@@ -50,12 +50,12 @@ void ARPGPlayerController::CombineItemStacks(ARPGItemInstance* ItemBeingCombined
 	URPGInventory::CombineItemStacks(ItemBeingCombined, ReceivingItem);
 }
 
-void ARPGPlayerController::ServerMoveItem_Implementation(class ARPGItemInstance* ItemInstance, const bool bForceNewPosition, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
+void ARPGPlayerController::ServerMoveItem_Implementation(ARPGItemInstance* ItemInstance, const bool bForceNewPosition, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
 {
 	MoveItem(ItemInstance, bForceNewPosition, TargetInventory, TargetContainer, TargetSlot);
 }
 
-void ARPGPlayerController::MoveItem(class ARPGItemInstance* ItemInstance, const bool bForceNewPosition, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
+void ARPGPlayerController::MoveItem(ARPGItemInstance* ItemInstance, const bool bForceNewPosition, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
 {
 	if (!HasAuthority())
 	{
@@ -65,12 +65,12 @@ void ARPGPlayerController::MoveItem(class ARPGItemInstance* ItemInstance, const 
 	URPGFunctionLibrary::MoveItem(ItemInstance, bForceNewPosition, TargetInventory, TargetContainer, TargetSlot);
 }
 
-void ARPGPlayerController::ServerSplitItem_Implementation(ARPGItemInstance* ItemInstance, const int AmountToSplit, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
+void ARPGPlayerController::ServerSplitItem_Implementation(ARPGItemInstance* ItemInstance, const int AmountToSplit, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
 {
 	SplitItem(ItemInstance, AmountToSplit, TargetInventory, TargetContainer, TargetSlot);
 }
 
-void ARPGPlayerController::SplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
+void ARPGPlayerController::SplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
 {
 	if (!HasAuthority())
 	{
@@ -133,7 +133,7 @@ void ARPGPlayerController::PlayerTick(float DeltaTime)
 	// Trace to see what is under the touch location
 	FHitResult HitResult;
 	GetHitResultAtScreenPosition(MousePosition, ECC_Pawn, true, HitResult);
-	ARPGCharacterInstance* CharacterUnderCursor = Cast<ARPGCharacterInstance>(HitResult.Actor.Get());
+	ARPGCharacterInstance* CharacterUnderCursor = Cast<ARPGCharacterInstance>(HitResult.GetActor());
 	if (CharacterUnderCursor != HighlightedCharacter)
 	{
 		if (IsValid(HighlightedCharacter))
@@ -184,9 +184,9 @@ void ARPGPlayerController::OnInteract()
 	// Trace to see what is under the touch location
 	FHitResult HitResult;
 	GetHitResultAtScreenPosition(MousePosition, ECC_Pawn, true, HitResult);
-	if (HitResult.bBlockingHit && HitResult.Actor.IsValid())
+	if (HitResult.bBlockingHit && IsValid(HitResult.GetActor()))
 	{
-		if (ARPGCharacterInstance* ClickedCharacter = Cast<ARPGCharacterInstance>(HitResult.Actor.Get()))
+		if (ARPGCharacterInstance* ClickedCharacter = Cast<ARPGCharacterInstance>(HitResult.GetActor()))
 		{
 			SetSelectedCharacter(ClickedCharacter);
 
@@ -216,7 +216,7 @@ void ARPGPlayerController::OnJump()
 		// Trace to see what is under the touch location
 		FHitResult HitResult;
 		GetHitResultAtScreenPosition(MousePosition, ECC_Visibility, true, HitResult);
-		if (HitResult.bBlockingHit && HitResult.Actor.IsValid())
+		if (HitResult.bBlockingHit && IsValid(HitResult.GetActor()))
 		{
 			if (!SplinePathActorClass)
 			{

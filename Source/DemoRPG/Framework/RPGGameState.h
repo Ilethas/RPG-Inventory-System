@@ -6,6 +6,8 @@
 #include "GameFramework/GameState.h"
 #include "RPGGameState.generated.h"
 
+class URPGInventoryMappingContainer;
+class URPGInventory;
 /**
  * 
  */
@@ -17,10 +19,10 @@ public:
 	ARPGGameState();
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RPG Game State")
-	class URPGInventory* PartyStash;
+	TObjectPtr<URPGInventory> PartyStash;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RPG Game State")
-	class URPGInventoryMappingContainer* PartyStashMappingContainer;
+	TObjectPtr<URPGInventoryMappingContainer> PartyStashMappingContainer;
 
 	virtual void PostInitializeComponents() override;
 };

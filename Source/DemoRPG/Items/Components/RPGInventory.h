@@ -6,20 +6,23 @@
 #include "Components/ActorComponent.h"
 #include "RPGInventory.generated.h"
 
+class URPGItem;
+class ARPGItemInstance;
+struct FRPGItemInstanceArray;
 USTRUCT(BlueprintType, Meta = (DisplayName = "Item Instance Entry"))
 struct FRPGItemInstanceArrayEntry : public FFastArraySerializerItem
 {
 	GENERATED_USTRUCT_BODY()
 
 	FRPGItemInstanceArrayEntry() = default;
-	FRPGItemInstanceArrayEntry(class ARPGItemInstance* ItemInstance) : ItemInstance(ItemInstance) {}
+	FRPGItemInstanceArrayEntry(ARPGItemInstance* ItemInstance) : ItemInstance(ItemInstance) {}
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	class ARPGItemInstance* ItemInstance = nullptr;
+	TObjectPtr<ARPGItemInstance> ItemInstance = nullptr;
 
-	void PreReplicatedRemove(const struct FRPGItemInstanceArray& InArraySerializer);
-	void PostReplicatedAdd(const struct FRPGItemInstanceArray& InArraySerializer);
-	void PostReplicatedChange(const struct FRPGItemInstanceArray& InArraySerializer);
+	void PreReplicatedRemove(const FRPGItemInstanceArray& InArraySerializer);
+	void PostReplicatedAdd(const FRPGItemInstanceArray& InArraySerializer);
+	void PostReplicatedChange(const FRPGItemInstanceArray& InArraySerializer);
 
 private:
 	bool bWasPostReplicatedAddCalled = false;
@@ -75,20 +78,20 @@ struct FAddRemoveItemResult
 	FText ErrorMessage = FText::GetEmpty();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AddRemoveItemResult", Meta = (ExposeOnSpawn = "true"))
-	TArray<class ARPGItemInstance*> ItemInstances;
+	TArray<TObjectPtr<ARPGItemInstance>> ItemInstances;
 
-	static FAddRemoveItemResult AllItemsAdded(const int Amount, TArray<class ARPGItemInstance*> ItemInstances);
-	static FAddRemoveItemResult SomeItemsRemoved(const int AmountToRemove, const int AmountRemoved, TArray<class ARPGItemInstance*> ItemInstances, const FText& ErrorMessage);
-	static FAddRemoveItemResult AllItemsRemoved(const int Amount, TArray<class ARPGItemInstance*> ItemInstances);
+	static FAddRemoveItemResult AllItemsAdded(const int Amount, TArray<ARPGItemInstance*> ItemInstances);
+	static FAddRemoveItemResult SomeItemsRemoved(const int AmountToRemove, const int AmountRemoved, TArray<ARPGItemInstance*> ItemInstances, const FText& ErrorMessage);
+	static FAddRemoveItemResult AllItemsRemoved(const int Amount, TArray<ARPGItemInstance*> ItemInstances);
 };
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FInventoryItemRemovedNative, class ARPGItemInstance*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FInventoryItemRemovedNative, ARPGItemInstance*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryItemRemoved, class ARPGItemInstance*, RemovedItem);
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FInventoryItemAddedNative, class ARPGItemInstance*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FInventoryItemAddedNative, ARPGItemInstance*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryItemAdded, class ARPGItemInstance*, AddedItem);
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FInventoryItemChangedNative, class ARPGItemInstance*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FInventoryItemChangedNative, ARPGItemInstance*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryItemChanged, class ARPGItemInstance*, ChangedItem);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent, DisplayName = "Inventory"))
@@ -112,19 +115,19 @@ public:
 	URPGInventory();
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	FAddRemoveItemResult AddItem(class URPGItem* Item, int Quantity = 1);
+	FAddRemoveItemResult AddItem(URPGItem* Item, int Quantity = 1);
 	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	FAddRemoveItemResult RemoveItem(class URPGItem* Item, int Quantity = -1);
+	FAddRemoveItemResult RemoveItem(URPGItem* Item, int Quantity = -1);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	void AddItemInstance(class ARPGItemInstance* ItemInstance);
+	void AddItemInstance(ARPGItemInstance* ItemInstance);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	void RemoveItemInstance(class ARPGItemInstance* ItemInstance);
+	void RemoveItemInstance(ARPGItemInstance* ItemInstance);
 	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	static bool CombineItemStacks(class ARPGItemInstance* ItemBeingCombined, class ARPGItemInstance* ReceivingItem);
+	static bool CombineItemStacks(ARPGItemInstance* ItemBeingCombined, ARPGItemInstance* ReceivingItem);
 
 	UFUNCTION(BlueprintPure, Category = Inventory)
 	TArray<ARPGItemInstance*> GetItemInstances() const;
@@ -133,7 +136,7 @@ public:
 	void ForEachItemInstance(Functor Func);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	bool ContainsItem(class ARPGItemInstance* ItemInstance, const bool bRecursive = false);
+	bool ContainsItem(ARPGItemInstance* ItemInstance, const bool bRecursive = false);
 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
@@ -141,9 +144,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Transient, Replicated, Category = Inventory)
 	FRPGItemInstanceArray ItemInstanceArray;
 	
-	void OnItemInstanceRemoved_Internal(class ARPGItemInstance* RemovedItem);
-	void OnItemInstanceAdded_Internal(class ARPGItemInstance* AddedItem);
-	void OnItemInstanceChanged_Internal(class ARPGItemInstance* ChangedItem);
+	void OnItemInstanceRemoved_Internal(ARPGItemInstance* RemovedItem);
+	void OnItemInstanceAdded_Internal(ARPGItemInstance* AddedItem);
+	void OnItemInstanceChanged_Internal(ARPGItemInstance* ChangedItem);
 };
 
 template <typename Functor>

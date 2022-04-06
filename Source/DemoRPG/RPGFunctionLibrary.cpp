@@ -78,7 +78,7 @@ FVector2D URPGFunctionLibrary::GetWidgetScreenSize(UObject* WorldContextObject, 
 	return (WidgetGeometry.LocalToAbsolute(LocalSize) - ScreenPosition) / UWidgetLayoutLibrary::GetViewportScale(WorldContextObject);
 }
 
-void URPGFunctionLibrary::MoveItem(ARPGItemInstance* ItemInstance, const bool bForceNewPosition, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
+void URPGFunctionLibrary::MoveItem(ARPGItemInstance* ItemInstance, const bool bForceNewPosition, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
 {
 	// Sanity checks here.
 	// Item with inventory can't contain itself. Also, you can't put a bag into a bag that's inside that bag...
@@ -127,7 +127,7 @@ void URPGFunctionLibrary::MoveItem(ARPGItemInstance* ItemInstance, const bool bF
 	}
 }
 
-void URPGFunctionLibrary::SplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
+void URPGFunctionLibrary::SplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot)
 {
 	// No amount to transfer, nothing else to do
 	if (AmountToSplit <= 0)
@@ -226,8 +226,8 @@ void URPGFunctionLibrary::SetWidgetLayerPosition(UWidget* Widget, const FVector2
 		
 		const FMargin FinalPadding =
 		{
-			FinalPosition.X,
-			FinalPosition.Y,
+			static_cast<float>(FinalPosition.X),
+			static_cast<float>(FinalPosition.Y),
 			0.0f,
 			0.0f
 		};

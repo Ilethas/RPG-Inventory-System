@@ -9,6 +9,9 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "RPGFunctionLibrary.generated.h"
 
+class URPGInventoryMappingContainer;
+class URPGInventory;
+class UWidget;
 struct FGameplayTag;
 UCLASS()
 class DEMORPG_API URPGFunctionLibrary : public UBlueprintFunctionLibrary
@@ -42,37 +45,37 @@ public:
 	static bool IsWithEditor();
 
 	UFUNCTION(BlueprintCallable)
-	static bool IsDesignTime(class UWidget* Widget);
+	static bool IsDesignTime(UWidget* Widget);
 
 	UFUNCTION(BlueprintCallable)
-	static UUserWidget* GetParentUserWidget(const class UUserWidget* Widget);
+	static UUserWidget* GetParentUserWidget(const UUserWidget* Widget);
 
 	UFUNCTION(BlueprintCallable)
-	static bool IsChild(const class UUserWidget* Descendant, const class UUserWidget* Ancestor);
+	static bool IsChild(const UUserWidget* Descendant, const UUserWidget* Ancestor);
 
 	UFUNCTION(BlueprintPure)
 	static FVector2D GetWidgetScreenSize(UObject* WorldContextObject, const UWidget* Widget);
 
 	UFUNCTION(BlueprintCallable, Category = Items)
-	static void MoveItem(class ARPGItemInstance* ItemInstance, const bool bForceNewPosition, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
+	static void MoveItem(ARPGItemInstance* ItemInstance, const bool bForceNewPosition, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
 
 	UFUNCTION(BlueprintCallable, Category = Items)
-	static void SplitItem(class ARPGItemInstance* ItemInstance, const int AmountToSplit, class URPGInventory* TargetInventory, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
+	static void SplitItem(ARPGItemInstance* ItemInstance, const int AmountToSplit, URPGInventory* TargetInventory, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
 
 	UFUNCTION(BlueprintCallable, Category = Items)
-	static void ShowEquippedItemInUI(class ARPGItemInstance* ItemInstance);
+	static void ShowEquippedItemInUI(ARPGItemInstance* ItemInstance);
 
 	UFUNCTION(BlueprintCallable, Category = Items)
-	static void HideEquippedItemInUI(class ARPGItemInstance* ItemInstance);
+	static void HideEquippedItemInUI(ARPGItemInstance* ItemInstance);
 	
 	UFUNCTION(BlueprintCallable, Category = Items)
-	static void ShowItemInInventory(class ARPGItemInstance* ItemInstance, class URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
+	static void ShowItemInInventory(ARPGItemInstance* ItemInstance, URPGInventoryMappingContainer* TargetContainer, const FRPGUISlot& TargetSlot);
 	
 	UFUNCTION(BlueprintCallable, Category = Items)
-	static void HideItemInInventory(class ARPGItemInstance* ItemInstance, class URPGInventoryMappingContainer* TargetContainer);
+	static void HideItemInInventory(ARPGItemInstance* ItemInstance, URPGInventoryMappingContainer* TargetContainer);
 
 	UFUNCTION(BlueprintCallable, Category = UI)
-	static void SetWidgetLayerPosition(class UWidget* Widget, const FVector2D Position);
+	static void SetWidgetLayerPosition(UWidget* Widget, const FVector2D Position);
 
 	template <typename ComponentType>
 	static ComponentType* GetComponentByTag(AActor* Actor, const FName Tag);

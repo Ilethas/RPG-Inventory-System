@@ -9,16 +9,18 @@
 #include "DemoRPG/Items/Components/RPGInventory.h"
 #include "RPGContextMenuWidget.generated.h"
 
+class URPGEquippableFeature;
+class UVerticalBox;
 UCLASS()
 class DEMORPG_API URPGContextMenuWidget : public URPGFocusWidget
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(BlueprintReadOnly, Meta = (BindWidget), Category = "Context Menu Widget")
-	class UVerticalBox* Container;
+	TObjectPtr<UVerticalBox> Container;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (ExposeOnSpawn = "true"), Category = "Context Menu Widget")
-	UObject* ContextMenuOperation;
+	TObjectPtr<UObject> ContextMenuOperation;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Context Menu Widget")
 	void OnMenuCreated();
@@ -31,18 +33,18 @@ public:
 		OwnerT* Owner,
 		const TSubclassOf<URPGContextMenuWidget> ContextMenuWidgetClass,
 		const TSubclassOf<URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass,
-		class ARPGCharacterInstance* TargetCharacter,
-		class ARPGItemInstance* InItemInstance,
-		class URPGInventoryMappingContainer* TargetContainer);
+		ARPGCharacterInstance* TargetCharacter,
+		ARPGItemInstance* InItemInstance,
+		URPGInventoryMappingContainer* TargetContainer);
 
 	template <typename OwnerT>
 	static URPGContextMenuWidget* CreateEquippedItemContextMenu(
 		OwnerT* Owner,
 		const TSubclassOf<URPGContextMenuWidget> ContextMenuWidgetClass,
 		const TSubclassOf<URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass,
-		class ARPGCharacterInstance* TargetCharacter,
-		class ARPGItemInstance* InItemInstance,
-		class URPGInventoryMappingContainer* TargetContainer);
+		ARPGCharacterInstance* TargetCharacter,
+		ARPGItemInstance* InItemInstance,
+		URPGInventoryMappingContainer* TargetContainer);
 
 protected:
 	virtual void ReceivedRPGFocus(URPGFocusWidget* PreviouslyFocusedWidget) override;
@@ -53,10 +55,10 @@ template <typename OwnerT>
 URPGContextMenuWidget* URPGContextMenuWidget::CreateItemContextMenu(
 	OwnerT* Owner,
 	const TSubclassOf<URPGContextMenuWidget> ContextMenuWidgetClass,
-	const TSubclassOf<class URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass,
-	class ARPGCharacterInstance* TargetCharacter,
-	class ARPGItemInstance* InItemInstance,
-	class URPGInventoryMappingContainer* TargetContainer)
+	const TSubclassOf<URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass,
+	ARPGCharacterInstance* TargetCharacter,
+	ARPGItemInstance* InItemInstance,
+	URPGInventoryMappingContainer* TargetContainer)
 {
 	check(ContextMenuWidgetClass && ContextMenuEntryWidgetClass);
 	
@@ -92,10 +94,10 @@ template <typename OwnerT>
 URPGContextMenuWidget* URPGContextMenuWidget::CreateEquippedItemContextMenu(
 	OwnerT* Owner,
 	const TSubclassOf<URPGContextMenuWidget> ContextMenuWidgetClass,
-	const TSubclassOf<class URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass,
-	class ARPGCharacterInstance* TargetCharacter,
-	class ARPGItemInstance* InItemInstance,
-	class URPGInventoryMappingContainer* TargetContainer)
+	const TSubclassOf<URPGContextMenuEntryWidget> ContextMenuEntryWidgetClass,
+	ARPGCharacterInstance* TargetCharacter,
+	ARPGItemInstance* InItemInstance,
+	URPGInventoryMappingContainer* TargetContainer)
 {
 	check(ContextMenuWidgetClass && ContextMenuEntryWidgetClass);
 	

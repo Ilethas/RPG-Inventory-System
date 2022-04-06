@@ -36,7 +36,7 @@ void ARPGHUDBase::ShowHUDWidget()
 {
 	if (!IsValid(HUDWidget) && HUDWidgetClass)
 	{
-		HUDWidget = CreateWidget<URPGHUDWidget>(PlayerOwner, HUDWidgetClass);
+		HUDWidget = CreateWidget<URPGHUDWidget>(PlayerOwner.Get(), HUDWidgetClass);
 	}
 	if (IsValid(HUDWidget))
 	{
@@ -71,7 +71,7 @@ void ARPGHUDBase::BeginPlay()
 	UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(GetOwningPlayerController(), nullptr, EMouseLockMode::DoNotLock, false);
 	if (!IsValid(Cursor) && CursorWidgetClass)
 	{
-		Cursor = CreateWidget<URPGCursor>(PlayerOwner, CursorWidgetClass);
+		Cursor = CreateWidget<URPGCursor>(PlayerOwner.Get(), CursorWidgetClass);
 		PlayerOwner->SetMouseCursorWidget(EMouseCursor::Default, Cursor);
 		PlayerOwner->SetMouseCursorWidget(EMouseCursor::ResizeLeftRight, Cursor);
 		PlayerOwner->SetMouseCursorWidget(EMouseCursor::GrabHandClosed, Cursor);

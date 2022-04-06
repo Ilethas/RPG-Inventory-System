@@ -21,7 +21,7 @@ struct FRPGModularModelPartReplacement
 	FName ModelPartTag = NAME_None;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Appearance)
-	USkeletalMesh* SkeletalMesh = nullptr;
+	TObjectPtr<USkeletalMesh> SkeletalMesh = nullptr;
 };
 
 UCLASS(BlueprintType, Meta = (DisplayName = "Equippable"))
